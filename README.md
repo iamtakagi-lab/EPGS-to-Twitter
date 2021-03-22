@@ -1,4 +1,4 @@
-# EPGS-to-Twitter: EPGStaionの録画情報をTwitterで呟きます
+# EPGS-to-Twitter: EPGStationの録画情報をTwitterで呟きます
 [![npm version](https://badge.fury.io/js/epgstotwitter.svg)](https://badge.fury.io/js/epgstotwitter)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/iamtakagi/epgs-to-twitter)](https://github.com/iamtakagi/epgs-to-twitter/releases)
 [![CI](https://github.com/iamtakagi/epgs-to-twitter/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/iamtakagi/epgs-to-twitter/actions/workflows/ci.yml)
