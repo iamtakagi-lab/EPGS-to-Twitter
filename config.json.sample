@@ -1,0 +1,14 @@
+{
+    "epgstation": {
+        "host": "127.0.0.1",
+        "port": 8888,
+        "user": null,
+        "pass": null
+    },
+    "twitter": {
+       "ck": "",
+       "cs": "",
+       "at": "",
+       "ats": "" 
+    }
+}

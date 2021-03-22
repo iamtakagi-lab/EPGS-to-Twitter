@@ -1,0 +1,7 @@
+node_modules/*
+config.json
+tsselect.exe
+tsselect
+dropcheck.log
+dist/*
+.DS_Store

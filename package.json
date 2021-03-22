@@ -1,0 +1,36 @@
+{
+  "name": "epgstotwitter",
+  "version": "0.0,1",
+  "description": "Post information of EPGStation to Twitter.",
+  "main": "dist/main.js",
+  "author": "takagi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamtakagi/EPGS-to-Twitter.git"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "prettier": "prettier --write .",
+    "eslint": "eslint . --format friendly",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.35",
+    "@types/twitter": "^1.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "prettier": "^2.2.1",
+    "ts-loader": "^8.0.18",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "webpack": "^5.27.1",
+    "webpack-cli": "^4.5.0"
+  }
+}
