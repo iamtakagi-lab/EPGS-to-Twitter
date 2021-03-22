@@ -75,7 +75,7 @@ const twt = new Twt(config.twitter)
   } else if (process.argv[2] === 'reserve') {
     // 録画予約時
     twt.tweet(
-      `📺 新規録画予約しました\r\n${program.name} ${program.date} ${program.startAt} ～ ${program.endAt} [${program.channel}]\n${program.description}`
+      `📺 新規録画予約しました\r\n${program.name} ${program.date} ${program.startAt} ～ ${program.endAt} [${program.channel}]`
     )
   }
 })()
