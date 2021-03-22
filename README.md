@@ -21,4 +21,4 @@ recordingFinishCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js end'
 ```
 
 ## Acknowledgments
-[EPGS-to-Discord](https://github.com/advancedbear/EPGS-to-Discord)
+[advancedbear/EPGS-to-Discord](https://github.com/advancedbear/EPGS-to-Discord)
