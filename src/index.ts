@@ -64,7 +64,7 @@ const twt = new Twt(config.twitter)
     if (drop.errorCnt == null) {
       text += '\r\n(録画ファイルのロードに失敗しました)'
     } else if (drop.errorCnt != 0) {
-      // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合は詳細を投稿（メンション付き）
+      // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合は詳細を投稿
       text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
     } /*else {    
       // 映像PIDのd値が0の場合はドロップがないのでその旨を投稿
