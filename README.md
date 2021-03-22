@@ -9,6 +9,7 @@
 git clone https://github.com/iamtakagi/EPGS-to-Twitter
 cd EPGS-to-Twitter
 nano config.sample.json
+yarn
 yarn build
 ```
 
