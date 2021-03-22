@@ -1,6 +1,6 @@
 import { EPGStationSetting, TwitterSeting } from './setting'
 
 export type Config = {
-  egpstation: EPGStationSetting
+  epgstation: EPGStationSetting
   twitter: TwitterSeting
 }

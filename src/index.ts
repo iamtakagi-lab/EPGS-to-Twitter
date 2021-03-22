@@ -44,7 +44,7 @@ try {
 }
 
 // Clients
-const epgs = new EPGStation(config.egpstation)
+const epgs = new EPGStation(config.epgstation)
 const twt = new Twt(config.twitter)
 
 // CLI
