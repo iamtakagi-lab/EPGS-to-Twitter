@@ -8,7 +8,7 @@
 ```console
 git clone https://github.com/iamtakagi/EPGS-to-Twitter
 cd EPGS-to-Twitter
-sudo nano config.sample.json
+nano config.sample.json
 yarn build
 ```
 
