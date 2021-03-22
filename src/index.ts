@@ -62,7 +62,7 @@ const twt = new Twt(config.twitter)
     const drop = await epgs.checkDrop(recordedId)
     // 実行結果がnullの場合
     if (drop.errorCnt == null) {
-      text += '\r\n(録画ファイルをロードできません)'
+      text += '\r\n(録画ファイルのロードに失敗しました)'
     } else if (drop.errorCnt != 0) {
       // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合は詳細を投稿（メンション付き）
       text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
