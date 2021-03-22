@@ -12,3 +12,6 @@ reserveNewAdditionCommand: '/usr/local/bin/node /EPGS-to-Twitter/dist/main.js re
 recordingStartCommand: '/usr/local/bin/node /EPGS-to-Twitter/dist/main.js start'
 recordingFinishCommand: '/usr/local/bin/node /EPGS-to-Twitter/dist/main.js end'
 ```
+
+## 開発参考
+https://github.com/advancedbear/EPGS-to-Discord
