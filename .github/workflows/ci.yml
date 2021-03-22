@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+    paths-ignore:
+      - '*.md'
+  pull_request:
+     branches:
+      - master
+      - dev
+     types:
+      - opened
+      - synchronize
+     paths-ignore:
+      - '*.md'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: TypeCheck
+        run: yarn typecheck
+
+      - name: Prettier
+        run: yarn prettier
+
+      - name: Test
+        run: yarn test
+
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v3.0.0
+        with:
+          commit_message: ✨ Format by Prettier
