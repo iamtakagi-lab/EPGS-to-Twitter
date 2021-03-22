@@ -18,13 +18,20 @@ const program: Program = {
   description: process.env.DESCRIPTION ? process.env.DESCRIPTION : null,
   programId: process.env.PROGRAMID ? Number(process.env.PROGRAMID) : null,
   recordedId: process.env.RECORDEDID ? Number(process.env.RECORDEDID) : null,
-  date: process.env.STARTAT ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm',  {locale: ja})
+  date: process.env.STARTAT
+    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {
+        locale: ja,
+      })
     : null,
   startAt: process.env.STARTAT
-    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {locale: ja})
+    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {
+        locale: ja,
+      })
     : null,
   endAt: process.env.ENDAT
-    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', {locale: ja})
+    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', {
+        locale: ja,
+      })
     : null,
   recPath: process.env.RECPATH ? process.env.RECPATH : null,
 }
