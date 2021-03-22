@@ -51,62 +51,27 @@ const twt = new Twt(config.twitter)
 ;(async () => {
   if (process.argv[2] === 'start') {
     // 録画開始時
-    twt.tweet(
-      program.name +
-        ' ' +
-        program.startAt +
-        '～' +
-        program.endAt +
-        '［' +
-        program.channel +
-        '］'
-    )
+    twt.tweet(`📺 録画開始しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`)
   } else if (process.argv[2] === 'end') {
     // 録画終了時
-    let text =
-      program.name +
-      ' ' +
-      program.startAt +
-      '～' +
-      program.endAt +
-      '［' +
-      program.channel +
-      '］'
+    let text =　`📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
     const recordedId = program.recordedId
     if (!recordedId) process.exit()
     const drop = await epgs.checkDrop(recordedId)
     // 実行結果がnullの場合
     if (drop.errorCnt == null) {
-      text += '!===== Cannot load recorded file! =====!```'
+      text += '\r\n(録画ファイルをロードできません)'
     } else if (drop.errorCnt != 0) {
       // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合は詳細を投稿（メンション付き）
-      text += '!===== This MEPG-TS has dropped frame! =====!\n'
-      text +=
-        'Error: ' +
-        drop.errorCnt +
-        '\nDrop: ' +
-        drop.dropCnt +
-        '\nScrmbling: ' +
-        drop.scramblingCnt
-    } else {
+      text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
+    }/*else {    
       // 映像PIDのd値が0の場合はドロップがないのでその旨を投稿
-      text += '!===== This MPEG-TS has no drop =====!```'
-    }
+      text += '(MPEG-TS フレーム落ちはありません)'
+    }*/
+
     twt.tweet(text)
   } else if (process.argv[2] === 'reserve') {
     // 録画予約時
-    twt.tweet(
-      program.name +
-        ' ' +
-        program.date +
-        ' ' +
-        program.startAt +
-        '～' +
-        program.endAt +
-        '［' +
-        program.channel +
-        '］\n' +
-        program.description
-    )
+    twt.tweet(`📺 新規録画予約しました\r\n${program.name} ${program.date} ${program.startAt} ～ ${program.endAt} [${program.channel}]\n${program.description}`)
   }
 })()
