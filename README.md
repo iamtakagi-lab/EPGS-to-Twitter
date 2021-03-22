@@ -8,14 +8,15 @@
 ```console
 git clone https://github.com/iamtakagi/EPGS-to-Twitter
 cd EPGS-to-Twitter
-sudo nano config.sample.json
+nano config.sample.json
+yarn
 yarn build
 ```
 
 `EPGStation/config/config.yml`
 ```yml
 isEnabledDropCheck: true
-reserveNewAdditionCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js reserve'
+reserveNewAddtionCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js reserve'
 recordingStartCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js start'
 recordingFinishCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js end'
 ```
