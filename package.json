@@ -13,10 +13,11 @@
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write .",
     "eslint": "eslint . --format friendly",
-    "build": "webpack && mv config.json dist"
+    "build": "webpack && cp config.json dist"
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "date-fns": "^2.19.0",
     "twitter": "^1.7.1"
   },
   "devDependencies": {

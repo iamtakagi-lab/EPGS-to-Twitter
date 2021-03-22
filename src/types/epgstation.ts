@@ -1,5 +1,4 @@
 export type Program = {
-  now: Date
   channel: string | null
   name: string | null
   description: string | null

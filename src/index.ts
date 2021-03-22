@@ -1,33 +1,37 @@
-// System Imports
+// System
 import fs from 'fs'
 import path from 'path'
 
-// Module Imports
+// date-fns
+import { format } from 'date-fns'
+import ja from 'date-fns/locale/ja'
+
+// Module
 import { Twt, EPGStation } from '@/client'
 import { Config } from '@/types/config'
 import { Program } from '@/types/epgstation'
 
 // Program
 const program: Program = {
-  now: new Date(),
   channel: process.env.CHANNELNAME ? process.env.CHANNELNAME : null,
   name: process.env.NAME ? process.env.NAME : null,
   description: process.env.DESCRIPTION ? process.env.DESCRIPTION : null,
   programId: process.env.PROGRAMID ? Number(process.env.PROGRAMID) : null,
   recordedId: process.env.RECORDEDID ? Number(process.env.RECORDEDID) : null,
   date: process.env.STARTAT
-    ? new Date(Number(process.env.STARTAT)).toLocaleDateString('japanese', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        weekday: 'long',
+    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {
+        locale: ja,
       })
     : null,
   startAt: process.env.STARTAT
-    ? new Date(Number(process.env.STARTAT)).toLocaleTimeString('japanese')
+    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {
+        locale: ja,
+      })
     : null,
   endAt: process.env.ENDAT
-    ? new Date(Number(process.env.ENDAT)).toLocaleTimeString('japanese')
+    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', {
+        locale: ja,
+      })
     : null,
   recPath: process.env.RECPATH ? process.env.RECPATH : null,
 }
