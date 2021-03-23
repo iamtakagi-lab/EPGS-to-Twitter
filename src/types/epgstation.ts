@@ -11,7 +11,7 @@ export type Program = {
 }
 
 export type Drop = {
-  errorCnt: number | null
-  dropCnt: number | null
-  scramblingCnt: number | null
+  errorCnt: number
+  dropCnt: number
+  scramblingCnt: number
 }
