@@ -55,7 +55,10 @@ const twt = new Twt(config.twitter)
     // 録画終了時
     let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
     const recordedId = program.recordedId
-    if (recordedId === null) return process.exit()
+    if (!recordedId) {
+      twt.tweet(text)
+      process.exit() 
+    }
     const drop = await epgs.checkDrop(recordedId)
     // 実行結果がnullの場合
     if (drop.errorCnt === null) {
@@ -63,11 +66,7 @@ const twt = new Twt(config.twitter)
     } else if (drop.errorCnt != 0) {
       // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合は詳細を投稿
       text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
-    } /*else {    
-      // 映像PIDのd値が0の場合はドロップがないのでその旨を投稿
-      text += '(MPEG-TS フレーム落ちはありません)'
-    }*/
-
+    }
     twt.tweet(text)
   } else if (process.argv[2] === 'reserve') {
     // 録画予約時
