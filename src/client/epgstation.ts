@@ -1,6 +1,6 @@
 import { Drop } from '@/types/epgstation'
 import axios from 'axios'
-import { EPGStationSetting } from '../types/setting'
+import { EPGStationSetting } from '@/types/setting'
 
 export class EPGStation {
   private url: string
@@ -41,27 +41,18 @@ export class EPGStation {
     return data
   }
 
-  async checkDrop(recordedId: number | null) {
-    if(!recordedId) {
-      return Promise.resolve({
-        errorCnt: null,
-        dropCnt: null,
-        scramblingCnt: null,
-      } as Drop)
-    }
-    const data = await this.getRecorded(recordedId)
-    try {
-      return Promise.resolve({
-        errorCnt: data.errorCnt,
-        dropCnt: data.dropCnt,
-        scramblingCnt: data.scramblingCnt,
-      } as Drop)
-    } catch (e) {
-      return Promise.resolve({
-        errorCnt: null,
-        dropCnt: null,
-        scramblingCnt: null,
-      } as Drop)
-    }
+  async checkDrop(recordedId: number) : Promise<Drop | null> {
+    return new Promise(async(resolve, reject) => {
+      const data = await this.getRecorded(recordedId)
+      try {
+        resolve({
+          errorCnt: data.errorCnt,
+          dropCnt: data.dropCnt,
+          scramblingCnt: data.scramblingCnt,
+        } as Drop)
+      } catch (e) {
+        resolve(null)
+      }
+    })
   }
 }
