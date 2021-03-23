@@ -19,7 +19,7 @@ yarn build
 isEnabledDropCheck: true
 reserveNewAddtionCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js reserve'
 recordingStartCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js start'
-recordingFinishCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js end'
+recordingFinishCommand: '/path/to/node /EPGS-to-Twitter/dist/main.js finish'
 ```
 
 ## Acknowledgments
