@@ -41,7 +41,14 @@ export class EPGStation {
     return data
   }
 
-  async checkDrop(recordedId: number) {
+  async checkDrop(recordedId: number | null) {
+    if(!recordedId) {
+      return Promise.resolve({
+        errorCnt: null,
+        dropCnt: null,
+        scramblingCnt: null,
+      } as Drop)
+    }
     const data = await this.getRecorded(recordedId)
     try {
       return Promise.resolve({
