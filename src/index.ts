@@ -18,13 +18,13 @@ const program: Program = {
   description: process.env.DESCRIPTION ? process.env.DESCRIPTION : null,
   programId: process.env.PROGRAMID ? Number(process.env.PROGRAMID) : null,
   recordedId: process.env.RECORDEDID ? Number(process.env.RECORDEDID) : null,
-  date: process.env.STARTAT ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm',  {locale: ja})
+  date: process.env.STARTAT ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', { locale: ja })
     : null,
   startAt: process.env.STARTAT
-    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {locale: ja})
+    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', { locale: ja })
     : null,
   endAt: process.env.ENDAT
-    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', {locale: ja})
+    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', { locale: ja })
     : null,
   recPath: process.env.RECPATH ? process.env.RECPATH : null,
 }
@@ -44,29 +44,27 @@ try {
 const epgs = new EPGStation(config.epgstation)
 const twt = new Twt(config.twitter)
 
-// CLI
+  // CLI
 ;(async () => {
-  if (process.argv[2] === 'start') {
-    // 録画開始時
-    twt.tweet(
-      `📺 録画開始しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
-    )
-  } else if (process.argv[2] === 'finish') {
-    // 録画終了時
-    let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
-    const drop = await epgs.checkDrop(program.recordedId)
-    // 結果がnullの場合
-    if (drop.errorCnt === null) {
-      text += '\r\n(録画ファイルのロードに失敗しました)'
-    } else if (drop.errorCnt != 0) {
-      // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合は詳細を投稿
-      text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
+    if (process.argv[2] === 'start') {
+      // 録画開始時
+      twt.tweet(
+        `📺 録画開始しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
+      )
+    } else if (process.argv[2] === 'finish') {
+      // 録画終了時
+      let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
+      await epgs.checkDrop(program.recordedId).then((drop) => {
+        if (drop.errorCnt != 0) {
+          // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合
+          text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
+        }
+        twt.tweet(text)
+      })
+    } else if (process.argv[2] === 'reserve') {
+      // 録画予約時
+      twt.tweet(
+        `📺 新規録画予約しました\r\n${program.name} ${program.startAt} ～ ${program.endAt} [${program.channel}]`
+      )
     }
-    twt.tweet(text)
-  } else if (process.argv[2] === 'reserve') {
-    // 録画予約時
-    twt.tweet(
-      `📺 新規録画予約しました\r\n${program.name} ${program.startAt} ～ ${program.endAt} [${program.channel}]`
-    )
-  }
-})()
+  })()
