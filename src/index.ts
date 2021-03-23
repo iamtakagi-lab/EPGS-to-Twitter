@@ -54,8 +54,13 @@ const twt = new Twt(config.twitter)
   } else if (process.argv[2] === 'finish') {
     // 録画終了時
     let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
-    const drop = await epgs.checkDrop(program.recordedId)
-    // 結果がnullの場合
+    const recordedId = program.recordedId
+    if (!recordedId) {
+      twt.tweet(text)
+      process.exit() 
+    }
+    const drop = await epgs.checkDrop(recordedId)
+    // 実行結果がnullの場合
     if (drop.errorCnt === null) {
       text += '\r\n(録画ファイルのロードに失敗しました)'
     } else if (drop.errorCnt != 0) {
