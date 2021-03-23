@@ -1,5 +1,5 @@
 import Twitter from 'twitter'
-import { TwitterSeting } from '../types/setting'
+import { TwitterSeting } from '@/types/setting'
 
 export class Twt {
   private client: any
