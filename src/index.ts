@@ -18,20 +18,13 @@ const program: Program = {
   description: process.env.DESCRIPTION ? process.env.DESCRIPTION : null,
   programId: process.env.PROGRAMID ? Number(process.env.PROGRAMID) : null,
   recordedId: process.env.RECORDEDID ? Number(process.env.RECORDEDID) : null,
-  date: process.env.STARTAT
-    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {
-        locale: ja,
-      })
+  date: process.env.STARTAT ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm',  {locale: ja})
     : null,
   startAt: process.env.STARTAT
-    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {
-        locale: ja,
-      })
+    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', {locale: ja})
     : null,
   endAt: process.env.ENDAT
-    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', {
-        locale: ja,
-      })
+    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', {locale: ja})
     : null,
   recPath: process.env.RECPATH ? process.env.RECPATH : null,
 }
@@ -58,11 +51,11 @@ const twt = new Twt(config.twitter)
     twt.tweet(
       `📺 録画開始しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
     )
-  } else if (process.argv[2] === 'end') {
+  } else if (process.argv[2] === 'finish') {
     // 録画終了時
     let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
     const recordedId = program.recordedId
-    if (!recordedId) process.exit()
+    if (recordedId == null) process.exit()
     const drop = await epgs.checkDrop(recordedId)
     // 実行結果がnullの場合
     if (drop.errorCnt == null) {
