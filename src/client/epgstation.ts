@@ -1,58 +1,74 @@
-import { Drop } from '@/types/epgstation'
-import axios from 'axios'
-import { EPGStationSetting } from '@/types/setting'
+// System
+import fs from 'fs'
+import path from 'path'
 
-export class EPGStation {
-  private url: string
-  private user: string | null
-  private pass: string | null
+// date-fns
+import { format } from 'date-fns'
+import ja from 'date-fns/locale/ja'
 
-  constructor({ host, port, user, pass }: EPGStationSetting) {
-    if (!host) throw new Error('EPGStation url is not provided')
-    this.url = host + ':' + port + '/api/'
-    this.user = user
-    this.pass = pass
-  }
+// Module
+import { Twt, EPGStation } from '@/client'
+import { Config } from '@/types/config'
+import { Program } from '@/types/epgstation'
 
-  private get client() {
-    return axios.create({
-      baseURL: this.url,
-      headers: {
-        ...(this.isAuthorizationEnabled
-          ? {
-              Authorization: this.authorizationToken,
-            }
-          : {}),
-      },
-      timeout: 5000,
-    })
-  }
-
-  private get isAuthorizationEnabled() {
-    return !!(this.user && this.pass)
-  }
-
-  private get authorizationToken() {
-    return `Basic ${btoa(`${this.user}:${this.pass}`)}`
-  }
-
-  async getRecorded(recordedId: number) {
-    const { data } = await this.client.get(`recorded/${recordedId}`)
-    return data
-  }
-
-  async checkDrop(recordedId: number) : Promise<Drop | null> {
-    return new Promise(async(resolve, reject) => {
-      const data = await this.getRecorded(recordedId)
-      try {
-        resolve({
-          errorCnt: data.errorCnt,
-          dropCnt: data.dropCnt,
-          scramblingCnt: data.scramblingCnt,
-        } as Drop)
-      } catch (e) {
-        resolve(null)
-      }
-    })
-  }
+// Program
+const program: Program = {
+  channel: process.env.CHANNELNAME ? process.env.CHANNELNAME : null,
+  name: process.env.NAME ? process.env.NAME : null,
+  description: process.env.DESCRIPTION ? process.env.DESCRIPTION : null,
+  programId: process.env.PROGRAMID ? Number(process.env.PROGRAMID) : null,
+  recordedId: process.env.RECORDEDID ? Number(process.env.RECORDEDID) : null,
+  date: process.env.STARTAT ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', { locale: ja })
+    : null,
+  startAt: process.env.STARTAT
+    ? format(new Date(Number(process.env.STARTAT)), 'yyyy/MM/dd (E) HH:mm', { locale: ja })
+    : null,
+  endAt: process.env.ENDAT
+    ? format(new Date(Number(process.env.ENDAT)), 'yyyy/MM/dd (E) HH:mm', { locale: ja })
+    : null,
+  recPath: process.env.RECPATH ? process.env.RECPATH : null,
 }
+
+// Config
+let config: Config
+try {
+  config = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8')
+  )
+} catch (e) {
+  console.error('config.json not found!')
+  process.exit()
+}
+
+// Clients
+const epgs = new EPGStation(config.epgstation)
+const twt = new Twt(config.twitter)
+
+  // CLI
+  ; (async () => {
+    if (process.argv[2] === 'start') {
+      // 録画開始時
+      twt.tweet(
+        `📺 録画開始しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
+      )
+    } else if (process.argv[2] === 'finish') {
+      // 録画終了時
+      let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
+      if (program.recordedId) {
+        await epgs.checkDrop(program.recordedId).then((drop) => {
+          if (drop != null) {
+            if (drop.errorCnt != 1) {
+              // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合
+              text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
+            }
+          }
+        })
+      }
+      twt.tweet(text)
+    } else if (process.argv[2] === 'reserve') {
+      // 録画予約
+      twt.tweet(
+        `📺 新規録画予約しました\r\n${program.name} ${program.startAt} ～ ${program.endAt} [${program.channel}]`
+      )
+    }
+  })
