@@ -48,9 +48,11 @@ const twt = new Twt(config.twitter)
   ; (async () => {
     if (process.argv[2] === 'start') {
       // 録画開始時
-      twt.tweet(
-        `📺 録画開始しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
-      )
+      if (program.recordedId) {
+        twt.tweet(
+          `📺 録画開始しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
+        )
+      }
     } else if (process.argv[2] === 'finish') {
       // 録画終了時
       let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
@@ -67,8 +69,10 @@ const twt = new Twt(config.twitter)
       }
     } else if (process.argv[2] === 'reserve') {
       // 録画予約時
-      twt.tweet(
-        `📺 新規録画予約しました\r\n${program.name} ${program.startAt} ～ ${program.endAt} [${program.channel}]`
-      )
+      if (program.recordedId) {
+        twt.tweet(
+          `📺 新規録画予約しました\r\n${program.name} ${program.startAt} ～ ${program.endAt} [${program.channel}]`
+        )
+      }
     }
   })()
