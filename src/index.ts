@@ -54,16 +54,6 @@ const twt = new Twt(config.twitter)
   } else if (process.argv[2] === 'finish') {
     // 録画終了時
     let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
-    if (program.recordedId) {
-      await epgs.checkDrop(program.recordedId).then((drop) => {
-        if (drop != null) {
-          if (drop.errorCnt != 1) {
-            // 映像PIDのd値（ドロップ値）が0でない場合≒ドロップがある場合
-            text += `\r\n(MEPG-TS フレーム落ち - Error: ${drop.errorCnt} Drop: ${drop.dropCnt} Scrmbling: ${drop.scramblingCnt})`
-          }
-        }
-      })
-    }
     twt.tweet(text)
   } else if (process.argv[2] === 'reserve') {
     // 録画予約
