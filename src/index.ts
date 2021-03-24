@@ -53,8 +53,7 @@ const twt = new Twt(config.twitter)
     )
   } else if (process.argv[2] === 'finish') {
     // 録画終了時
-    let text = `📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`
-    twt.tweet(text)
+    twt.tweet(`📺 録画終了しました\r\n${program.name} ${program.startAt} ～ ${program.endAt}［${program.channel}]`)
   } else if (process.argv[2] === 'reserve') {
     // 録画予約
     twt.tweet(
